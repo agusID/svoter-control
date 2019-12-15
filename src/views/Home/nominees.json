@@ -1,0 +1,17 @@
+[
+  {
+    "image" : "http://agusdwi.id/images/cat-1.jpg",
+    "name" : "Nominee 1",
+    "position" : "Position 1"
+  },
+  {
+    "image" : "http://agusdwi.id/images/cat-2.jpg",
+    "name" : "Nominee 2",
+    "position" : "Position 2"
+  },
+  {
+    "image" : "http://agusdwi.id/images/cat-3.jpeg",
+    "name" : "Nominee 3",
+    "position" : "Position 3"
+  }
+]

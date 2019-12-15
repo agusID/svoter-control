@@ -1,7 +1,8 @@
 <script>
   import { database } from '@config/firebase.js'
   let token = ''
-  let questionJSON = ''
+  let nomineesJSON = ''
+
   let startCountButton = 0
   let freezeScoreboard = 0
   let currTab = 1
@@ -42,35 +43,29 @@
     });
   }
 
-  
-  function addQuestion(answer_1, answer_2, answer_3, answer_4, correct_answer, question) {
+  function addNominee(image, name, position) {
     let uniqueID = Math.random().toString(36).substring(7)
-    database.ref('question/' + uniqueID).set({
-      answer_1: answer_1,
-      answer_2: answer_2,
-      answer_3: answer_3,
-      answer_4: answer_4,
-      correct_answer: parseInt(correct_answer, 10),
-      question: question,
+    database.ref('nominees/' + uniqueID).set({
+      count: 0,
+      image,
+      name,
+      position,
       unique_id: uniqueID,
     }, function(error) {
       if (error)
         console.log(error)
-      else {
-        JSONmessage = 'Question data has been renewed'
-        console.log('question data has been saved')
-      }
+      else
+        JSONmessage = 'Nominees data has been renewed'
     })
   }
   
-  function handleQuestion () {
-    database.ref('question/').remove()
-    database.ref('scoreboard/').remove()
-    let tempData = JSON.parse(questionJSON)
-    tempData.question.forEach(function(value, index) {
-      addQuestion(value.answer_1, value.answer_2, value.answer_3, value.answer_4, value.correct_answer, value.question)
+  function handleNominees() {
+    database.ref('nominees/').remove()
+    let tempData = JSON.parse(nomineesJSON)
+    tempData.forEach((value, index) => {
+      addNominee(value.image, value.name, value.position)
     })
-    questionJSON = ''
+    nomineesJSON = ''
   }
 
   function handleStartCount() {
@@ -97,7 +92,7 @@
 
   .disabled {
     pointer-events: none;
-    opacity: 0.6;
+    opacity: 0.2;
   }
 
   .custom-input{
@@ -109,10 +104,10 @@
 
   .btn-reset{
     outline: none;
-    background: #107eeb;
+    background-color: #d35400;
     color: white;
     text-decoration: none;
-    border: 1px solid #107eeb;
+    border: 1px solid #d35400;
     border-radius: 0 5px 5px 0;
     padding: 8px 10px;
   }
@@ -141,6 +136,7 @@
 
   .btn {
     color: white;
+    background-color: #d35400;
     border: none;
     outline: none;
     font-size: 16px;
@@ -149,6 +145,7 @@
     margin: 10px 0;
     -webkit-transition: all 0.2s ease;
     transition: all 0.2s ease;
+    width: 100%;
   }
 
   .tab {
@@ -180,7 +177,7 @@
   }
 
   .btn-start-count {
-    border: 5px solid #d35400;
+    border: 5px solid white;
     background-color: #d35400;
     height: 200px;
     width: 200px;
@@ -190,11 +187,13 @@
     border-radius: 50%;
     padding: 10px;
     text-align: center;
-    font-size: 40px;
+    font-size: 30px;
+    text-transform: uppercase;
   }
 
   .btn-start-count:active {
-    transform: scale(0.8)
+    transform: scale(0.8);
+    box-shadow: 0 0 10px 20px #ffa910;
   }
 
   .btn-start-count .checkboxes {
@@ -218,9 +217,9 @@
     <div class="tab-content">
       <h4>Input New Nominees</h4>
       <div class="question-panel">
-        <textarea bind:value={questionJSON} placeholder="input raw json" cols="10"></textarea>
+        <textarea bind:value={nomineesJSON} placeholder="input raw json" cols="10"></textarea>
         <p class="message">{JSONmessage}</p>
-        <button class="btn btn-question" class:disabled={questionJSON.length === 0} on:click={handleQuestion}>Add Question</button>
+        <button class="btn" class:disabled={nomineesJSON.length === 0} on:click={handleNominees}>Submit</button>
       </div>
 
       <h4>Reset Scoreboard</h4>
