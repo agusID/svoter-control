@@ -4,6 +4,7 @@
   let questionJSON = ''
   let startCountButton = 0
   let freezeScoreboard = 0
+  let currTab = 1
 
   $: message = ''
   $: JSONmessage = ''
@@ -76,13 +77,14 @@
     database.ref('app/start_count').set({ value: startCountButton})
   }
 
+  function handleTab(tab) {
+    currTab = tab
+  }
 </script>
 <style>
   .container{
     font-family: 'Roboto';
     display: flex;
-    align-items: center;
-    justify-content: center;
     width: 100%;
     height: 100vh;
     color: white;
@@ -148,26 +150,85 @@
     -webkit-transition: all 0.2s ease;
     transition: all 0.2s ease;
   }
+
+  .tab {
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+    width: 100%;
+  }
+
+  .tab-item {
+    width: 50%;
+    text-align: center;
+    padding: 20px 0;
+    background-color: #e67e22;
+    cursor: pointer;
+  }
+
+  .tab-item:hover, .tab-item.active {
+    background-color: #ffa910;
+    font-weight: bold;
+  }
+
+  .tab-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 59px);
+    flex-direction: column;
+  }
+
+  .btn-start-count {
+    border: 5px solid #d35400;
+    background-color: #d35400;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 10px;
+    text-align: center;
+    font-size: 40px;
+  }
+
+  .btn-start-count:active {
+    transform: scale(0.8)
+  }
+
+  .btn-start-count .checkboxes {
+    height: 0;
+    width: 0;
+  }
 </style>
 <div class="container">
-    <h4>Input New Nominees</h4>
-    <div class="question-panel">
-      <textarea bind:value={questionJSON} placeholder="input raw json" cols="10"></textarea>
-      <p class="message">{JSONmessage}</p>
-      <button class="btn btn-question" class:disabled={questionJSON.length === 0} on:click={handleQuestion}>Add Question</button>
+  <div class="tab">
+    <div class="tab-item" class:active={currTab === 1} on:click={() => handleTab(1)}>Main Control</div>
+    <div class="tab-item" class:active={currTab === 2} on:click={() => handleTab(2)}>Nominees</div>
+  </div>
+  {#if currTab === 1}
+    <div class="tab-content">
+      <label class="btn-start-count">
+        <input class="checkboxes" type="checkbox" on:change={handleStartCount} bind:checked={startCountButton}>
+        {startCountButton ? 'Started' : 'Start'}
+      </label>
     </div>
+  {:else if currTab === 2}
+    <div class="tab-content">
+      <h4>Input New Nominees</h4>
+      <div class="question-panel">
+        <textarea bind:value={questionJSON} placeholder="input raw json" cols="10"></textarea>
+        <p class="message">{JSONmessage}</p>
+        <button class="btn btn-question" class:disabled={questionJSON.length === 0} on:click={handleQuestion}>Add Question</button>
+      </div>
 
-    <label>
-      <input type="checkbox" on:change={handleStartCount} bind:checked={startCountButton}> Start Count
-    </label>
-
-    
-    <h4>Reset Scoreboard</h4>
-    <div class="flex">
-      <input class="custom-input" bind:value={token} type="password" placeholder="TOKEN" />
-      <button class="btn-reset" class:disabled={token.length === 0} on:click={reset}>RESET</button>
+      <h4>Reset Scoreboard</h4>
+      <div class="flex">
+        <input class="custom-input" bind:value={token} type="password" placeholder="TOKEN" />
+        <button class="btn-reset" class:disabled={token.length === 0} on:click={reset}>RESET</button>
+      </div>
+      <p class="message">{message}</p>
     </div>
-    <p class="message">{message}</p>
-    <br>
-    <br>
+  {/if}
 </div>
