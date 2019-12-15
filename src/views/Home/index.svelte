@@ -2,17 +2,17 @@
   import { database } from '@config/firebase.js'
   let token = ''
   let questionJSON = ''
-  let takeQuizButton = 0
+  let startCountButton = 0
   let freezeScoreboard = 0
 
   $: message = ''
   $: JSONmessage = ''
 
-  let takeQuizButtonConf = database.ref('app/take_quiz_button')
-  takeQuizButtonConf.on('value', function(snapshot) {
+  let startCountButtonConf = database.ref('app/start_count')
+  startCountButtonConf.on('value', function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
       let childData = childSnapshot.val()
-      takeQuizButton = childData
+      startCountButton = childData
     }) 
   })
 
@@ -72,19 +72,14 @@
     questionJSON = ''
   }
 
-  function handleFreezeScoreboard() {
-    database.ref('app/freeze_scoreboard').set({ value: freezeScoreboard})
-  }
-
-  function handleQuizButton() {
-    database.ref('app/take_quiz_button').set({ value: takeQuizButton})
+  function handleStartCount() {
+    database.ref('app/start_count').set({ value: startCountButton})
   }
 
 </script>
 <style>
   .container{
     font-family: 'Roboto';
-    background: #0b2d53;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -143,7 +138,6 @@
   }
 
   .btn {
-    background-color: #107eeb;
     color: white;
     border: none;
     outline: none;
@@ -156,7 +150,7 @@
   }
 </style>
 <div class="container">
-    <h4>Input New Question</h4>
+    <h4>Input New Nominees</h4>
     <div class="question-panel">
       <textarea bind:value={questionJSON} placeholder="input raw json" cols="10"></textarea>
       <p class="message">{JSONmessage}</p>
@@ -164,7 +158,7 @@
     </div>
 
     <label>
-      <input type="checkbox" on:change={handleQuizButton} bind:checked={takeQuizButton}> Take Quiz Button
+      <input type="checkbox" on:change={handleStartCount} bind:checked={startCountButton}> Start Count
     </label>
 
     
@@ -174,9 +168,6 @@
       <button class="btn-reset" class:disabled={token.length === 0} on:click={reset}>RESET</button>
     </div>
     <p class="message">{message}</p>
-    <label>
-      <input type="checkbox" on:change={handleFreezeScoreboard} bind:checked={freezeScoreboard}> Freeze Scoreboard
-    </label>
     <br>
     <br>
 </div>
