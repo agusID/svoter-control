@@ -59,15 +59,16 @@
     })
   }
   
-  function updateTitle(data) {
+  function updateAppData(data) {
     database.ref('app/title').set({ value: data.title})
     database.ref('app/title_nominee').set({ value: data.title_nominee})
+    database.ref('app/question').set({ value: data.question})
   }
 
   function handleNominees() {
     database.ref('nominees/').remove()
     let tempData = JSON.parse(nomineesJSON)
-    updateTitle(tempData)
+    updateAppData(tempData)
     tempData.nominees.forEach((value, index) => {
       addNominee(value.image, value.name, value.position)
     })
