@@ -59,10 +59,16 @@
     })
   }
   
+  function updateTitle(data) {
+    database.ref('app/title').set({ value: data.title})
+    database.ref('app/title_nominee').set({ value: data.title_nominee})
+  }
+
   function handleNominees() {
     database.ref('nominees/').remove()
     let tempData = JSON.parse(nomineesJSON)
-    tempData.forEach((value, index) => {
+    updateTitle(tempData)
+    tempData.nominees.forEach((value, index) => {
       addNominee(value.image, value.name, value.position)
     })
     nomineesJSON = ''
