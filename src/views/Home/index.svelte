@@ -189,6 +189,7 @@
     text-align: center;
     font-size: 30px;
     text-transform: uppercase;
+    cursor: pointer;
   }
 
   .btn-start-count:active {
@@ -197,8 +198,10 @@
   }
 
   .btn-start-count .checkboxes {
-    height: 0;
-    width: 0;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden;
+    opacity: 0;
   }
 </style>
 <div class="container">
