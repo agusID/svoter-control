@@ -154,6 +154,7 @@
     min-width: calc(100% - 22px);
     min-height: 50vh;
     max-height: 80vh;
+    font-size: 14px;
     outline: none;
     border: 1px solid white;
     padding: 8px 10px;
@@ -195,6 +196,7 @@
     text-align: center;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
 
   .btn-clear-cookie:active {
@@ -213,6 +215,8 @@
     flex-direction: row;
     align-content: stretch;
     width: 100%;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .tab-item {
@@ -252,6 +256,7 @@
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     transition: all 0.2s ease;
+    user-select: none;
   }
 
   .btn-start-count:active {
