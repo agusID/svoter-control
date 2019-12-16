@@ -44,13 +44,13 @@
   }
 
   function addNominee(prefix, image, name, position) {
-    let uniqueID = Math.random().toString(36).substring(7)
+    let uniqueID = prefix + Math.random().toString(36).substring(7)
     database.ref('nominees/' + uniqueID).set({
       count: 0,
       image,
       name,
       position,
-      unique_id: prefix + uniqueID,
+      unique_id: uniqueID,
     }, function(error) {
       if (error)
         console.log(error)
