@@ -2,6 +2,7 @@
   import { database } from '@config/firebase.js'
   import * as firebase from 'firebase/app'
   import 'firebase/firestore'
+  import { Loader } from '@components'
 
   let token = ''
   let nomineesJSON = ''
@@ -9,15 +10,18 @@
   let startCountButton = 0
   let clearCookieButton = 0
   let currTab = 1
+  let isLoadingStart = true
 
   $: message = ''
   $: JSONmessage = ''
 
   let startCountButtonConf = database.ref('app/start_count')
   startCountButtonConf.on('value', function(snapshot) {
+    isLoadingStart = true
     snapshot.forEach(function(childSnapshot) {
       let childData = childSnapshot.val()
       startCountButton = childData
+      isLoadingStart = false
     }) 
   })
 
@@ -90,7 +94,9 @@
   }
 
   function handleStartCount() {
+    isLoadingStart = true
     database.ref('app/start_count').set({ value: startCountButton})
+    isLoadingStart = false
   }
 
   function handleClearCookie() {
@@ -244,6 +250,8 @@
     font-size: 30px;
     text-transform: uppercase;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.2s ease;
   }
 
   .btn-start-count:active {
@@ -257,6 +265,11 @@
     overflow: hidden;
     opacity: 0;
   }
+
+  .is-loading {
+    pointer-events: none;
+  }
+
 </style>
 <div class="container">
   <div class="tab">
@@ -265,9 +278,13 @@
   </div>
   {#if currTab === 1}
     <div class="tab-content">
-      <label class="btn-start-count">
+      <label class="btn-start-count" class:is-loading={isLoadingStart}>
         <input class="checkboxes" type="checkbox" on:change={handleStartCount} bind:checked={startCountButton}>
-        {startCountButton ? 'Started' : 'Start'}
+        {#if isLoadingStart}
+          <Loader />
+        {:else}
+          {startCountButton ? 'Started' : 'Start'}
+        {/if}
       </label>
       <label class="btn-clear-cookie">
         <input class="checkboxes" type="checkbox" on:change={handleClearCookie} bind:checked={clearCookieButton}>
