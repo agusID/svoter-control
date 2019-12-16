@@ -43,14 +43,14 @@
     });
   }
 
-  function addNominee(image, name, position) {
+  function addNominee(prefix, image, name, position) {
     let uniqueID = Math.random().toString(36).substring(7)
     database.ref('nominees/' + uniqueID).set({
       count: 0,
       image,
       name,
       position,
-      unique_id: uniqueID,
+      unique_id: prefix + uniqueID,
     }, function(error) {
       if (error)
         console.log(error)
@@ -70,7 +70,7 @@
     let tempData = JSON.parse(nomineesJSON)
     updateAppData(tempData)
     tempData.nominees.forEach((value, index) => {
-      addNominee(value.image, value.name, value.position)
+      addNominee(`${index + 1}-`, value.image, value.name, value.position)
     })
     nomineesJSON = ''
   }
