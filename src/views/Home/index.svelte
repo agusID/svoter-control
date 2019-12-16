@@ -4,7 +4,7 @@
   let nomineesJSON = ''
 
   let startCountButton = 0
-  let freezeScoreboard = 0
+  let clearCookieButton = 0
   let currTab = 1
 
   $: message = ''
@@ -18,11 +18,11 @@
     }) 
   })
 
-  let freezeScoreboardnConf = database.ref('app/freeze_scoreboard')
-  freezeScoreboardnConf.on('value', function(snapshot) {
+  let clearCookieConf = database.ref('app/cookie')
+  clearCookieConf.on('value', function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
       let childData = childSnapshot.val()
-      freezeScoreboard = childData
+      clearCookieButton = childData
     }) 
   })
 
@@ -77,6 +77,10 @@
 
   function handleStartCount() {
     database.ref('app/start_count').set({ value: startCountButton})
+  }
+
+  function handleClearCookie() {
+    database.ref('app/cookie').set({ value: clearCookieButton})
   }
 
   function handleTab(tab) {
@@ -153,6 +157,35 @@
     -webkit-transition: all 0.2s ease;
     transition: all 0.2s ease;
     width: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-clear-cookie {
+    color: white;
+    background-color: #d35400;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin: 40px 0;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    width: 200px;
+    text-align: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-clear-cookie:active {
+    transform: scale(0.8);
+  }
+
+  .btn-clear-cookie .checkboxes {
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden;
+    opacity: 0;
   }
 
   .tab {
@@ -221,6 +254,10 @@
       <label class="btn-start-count">
         <input class="checkboxes" type="checkbox" on:change={handleStartCount} bind:checked={startCountButton}>
         {startCountButton ? 'Started' : 'Start'}
+      </label>
+      <label class="btn-clear-cookie">
+        <input class="checkboxes" type="checkbox" on:change={handleClearCookie} bind:checked={clearCookieButton}>
+        {clearCookieButton ? 'Cleared' : 'Clear Cookie'}
       </label>
     </div>
   {:else if currTab === 2}
