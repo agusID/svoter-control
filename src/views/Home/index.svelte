@@ -1,5 +1,8 @@
 <script>
   import { database } from '@config/firebase.js'
+  import * as firebase from 'firebase/app'
+  import 'firebase/firestore'
+
   let token = ''
   let nomineesJSON = ''
 
@@ -72,6 +75,18 @@
     tempData.nominees.forEach((value, index) => {
       addNominee(`${index + 1}-`, value.image, value.name, value.position)
     })
+
+    const db = firebase.firestore()
+    const increment = firebase.firestore.FieldValue.increment(1)
+
+    // Document reference
+    const nomineesRef = db.collection('nominees').doc('hello-world')
+
+    // Update read count
+    nomineesRef.update({ count1: 0 })
+    nomineesRef.update({ count2: 0 })
+    nomineesRef.update({ count3: 0 })
+
     nomineesJSON = ''
   }
 
