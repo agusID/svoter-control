@@ -15,7 +15,7 @@
     "webpack": "4.41.5",
     "webpack-cli": "3.3.10",
     "webpack-dev-server": "3.10.1",
-    "workbox-webpack-plugin": "4.3.1"
+    "workbox-webpack-plugin": "5.0.0"
   },
   "scripts": {
     "start": "webpack-dev-server --env.mode=development --config webpack.config",
