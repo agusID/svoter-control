@@ -8,7 +8,7 @@
     "file-loader": "6.0.0",
     "copy-webpack-plugin": "5.1.1",
     "css-loader": "3.4.2",
-    "html-webpack-plugin": "4.0.2",
+    "html-webpack-plugin": "4.3.0",
     "serve": "11.3.0",
     "style-loader": "1.2.1",
     "svelte-loader": "2.13.6",
