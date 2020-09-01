@@ -5,7 +5,7 @@
   "author": "agusID <dwi.agustianto@ralali.com>",
   "license": "MIT",
   "devDependencies": {
-    "file-loader": "6.0.0",
+    "file-loader": "6.1.0",
     "copy-webpack-plugin": "5.1.1",
     "css-loader": "4.2.0",
     "html-webpack-plugin": "4.3.0",
