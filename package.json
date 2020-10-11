@@ -23,7 +23,7 @@
     "serve": "serve -s build"
   },
   "dependencies": {
-    "firebase": "^7.14.4",
+    "firebase": "^7.23.0",
     "svelte": "^3.20.1",
     "svelte-routing": "^1.4.2",
     "universal-cookie": "^4.0.3"
