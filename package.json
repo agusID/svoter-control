@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "firebase": "^7.14.4",
-    "svelte": "^3.20.1",
+    "svelte": "^3.29.4",
     "svelte-routing": "^1.4.2",
     "universal-cookie": "^4.0.3"
   },
