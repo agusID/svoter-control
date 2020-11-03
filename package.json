@@ -6,7 +6,7 @@
   "license": "MIT",
   "devDependencies": {
     "file-loader": "6.0.0",
-    "copy-webpack-plugin": "5.1.1",
+    "copy-webpack-plugin": "6.3.0",
     "css-loader": "4.2.0",
     "html-webpack-plugin": "4.3.0",
     "serve": "11.3.0",
